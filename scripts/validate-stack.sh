@@ -11,17 +11,24 @@ bash -n "${ROOT_DIR}/scripts/setup_channel.sh"
 docker compose -f "${ROOT_DIR}/config/docker-compose-ca.yaml" config >/dev/null
 docker compose -f "${ROOT_DIR}/config/docker-compose-network.yaml" --env-file "${ROOT_DIR}/config/.env.network" config >/dev/null
 
-python - <<'PY'
+PY_BIN="$(command -v python3 || command -v python || true)"
+if [[ -n "${PY_BIN}" ]] && "${PY_BIN}" -c "import yaml" >/dev/null 2>&1; then
+  ROOT_DIR="${ROOT_DIR}" "${PY_BIN}" - <<'PY'
+import os
 from pathlib import Path
 import yaml
-for p in [
-    Path('/home/tuyenngduc/workspaces/fabric/config/configtx.yaml'),
-    Path('/home/tuyenngduc/workspaces/fabric/config/docker-compose-ca.yaml'),
-    Path('/home/tuyenngduc/workspaces/fabric/config/docker-compose-network.yaml'),
+root = Path(os.environ['ROOT_DIR'])
+for rel in [
+    'config/configtx.yaml',
+    'config/docker-compose-ca.yaml',
+    'config/docker-compose-network.yaml',
 ]:
-    yaml.safe_load(p.read_text())
+    yaml.safe_load((root / rel).read_text())
 print('YAML parse checks passed')
 PY
+else
+  echo "Skipping python YAML parse (python3 + pyyaml not available)"
+fi
 
 echo "Validation complete"
 
