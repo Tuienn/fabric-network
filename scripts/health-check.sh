@@ -62,7 +62,7 @@ dexec() {
   if [ "${DOCKER_CMD}" = "sg docker -c" ]; then
     sg docker -c "$*"
   else
-    eval "${DOCKER_CMD} $*"
+    eval "$*"
   fi
 }
 

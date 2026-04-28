@@ -97,7 +97,7 @@ Script kiểm tra theo thứ tự:
 # Dừng và xoá cả volume ledger
 ./scripts/stop-network.sh --with-volumes --yes
 
-# Dừng và xoá toàn bộ (volume + channel artifacts)
+# Dừng và xoá toàn bộ (volume + channel artifacts + MSP/TLS)
 ./scripts/stop-network.sh --all --yes
 ```
 
@@ -106,12 +106,23 @@ Script kiểm tra theo thứ tự:
 ## Reset hoàn toàn
 
 ```bash
-# Dọn sạch toàn bộ: stack + volume + artifacts (để test lại từ đầu)
+# Dọn sạch hoàn toàn: stack + volume + artifacts + organizations/ MSP/TLS
 ./scripts/clean-reset.sh --all --yes
 
 # Chỉ xem sẽ làm gì, không thực thi
 ./scripts/clean-reset.sh --all --dry-run
 ```
+
+Các flag của `clean-reset.sh`:
+
+| Flag | Xoá gì |
+|------|---------|
+| `--with-volumes` | Docker named volumes (ledger orderer/peer) |
+| `--with-artifacts` | `channel-artifacts/*.block`, `*.tx`, `anchor-updates/` |
+| `--with-orgs` | `organizations/` — MSP/TLS certs + CA database (root-owned, dùng Docker busybox) |
+| `--all` | Tất cả 3 ở trên |
+
+> **Lưu ý:** Files trong `organizations/` và `channel-artifacts/` được tạo bên trong container Docker nên thuộc sở hữu root. Script tự động dùng Docker busybox để xóa, không cần `sudo`.
 
 Sau khi reset, chạy lại:
 
