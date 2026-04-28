@@ -229,6 +229,7 @@ BACKUP_DIR=/mnt/nas ./scripts/backup-ledger.sh
 
 | Triệu chứng | Lệnh kiểm tra |
 |-------------|---------------|
+| `Permission denied` khi chạy script | `chmod +x scripts/*.sh` rồi thử lại |
 | CA không lên | `docker compose -f config/docker-compose-ca.yaml logs -f` |
 | Enroll lỗi TLS | `ls organizations/fabric-ca/*/tls-cert.pem` |
 | Peer/orderer unhealthy | `docker compose --env-file config/.env.network -f config/docker-compose-network.yaml logs -f` |

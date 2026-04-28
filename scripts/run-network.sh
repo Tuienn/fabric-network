@@ -78,6 +78,10 @@ drun() {
 
 # ---------- Phase 1: Sanity ----------
 phase "Phase 1/7  Sanity & prerequisites"
+
+# Đảm bảo tất cả script có quyền execute (fix khi clone về máy có core.fileMode=false)
+chmod +x "${ROOT_DIR}/scripts/"*.sh 2>/dev/null || true
+
 [ -f "${ROOT_DIR}/config/configtx.yaml" ] || die "thiếu config/configtx.yaml"
 [ -f "${ROOT_DIR}/config/docker-compose-ca.yaml" ] || die "thiếu compose CA"
 [ -f "${ROOT_DIR}/config/docker-compose-network.yaml" ] || die "thiếu compose network"
