@@ -114,7 +114,7 @@ if [ "${SKIP_ENROLL}" = true ]; then
 else
   phase "Phase 3/7  Enroll org1 / org2 / orderer"
   ENROLL_BASE="docker run --rm --network host \
-    -v '${ROOT_DIR}':/workspace -w /workspace \
+    -v '${ROOT_DIR}':/workspace:z -w /workspace \
     hyperledger/fabric-ca:${FABRIC_CA_TAG} bash -lc"
 
   log "→ org1"
@@ -156,7 +156,7 @@ if [ "${SKIP_CHANNEL}" = true ]; then
 else
   phase "Phase 6/7  Channel setup (${CHANNEL_NAME})"
   drun "docker run --rm --network host \
-    -v '${ROOT_DIR}':/workspace -w /workspace \
+    -v '${ROOT_DIR}':/workspace:z -w /workspace \
     hyperledger/fabric-tools:${FABRIC_TOOLS_TAG} bash -lc \
     \"export FABRIC_CFG_PATH=/workspace/config; ./scripts/setup_channel.sh\""
 fi
@@ -165,7 +165,7 @@ fi
 if [ "${DO_SMOKE}" = true ] && [ "${SKIP_CHANNEL}" = false ]; then
   phase "Phase 7/7  Smoke probe"
   drun "docker run --rm --network host \
-    -v '${ROOT_DIR}':/workspace -w /workspace \
+    -v '${ROOT_DIR}':/workspace:z -w /workspace \
     hyperledger/fabric-tools:${FABRIC_TOOLS_TAG} bash -lc \
     \"osnadmin channel list \
        -o localhost:9443 \

@@ -243,7 +243,7 @@ else
   section "Channel trên orderer"
   # Probe luôn qua docker (root) để né permission denied khi MSP/TLS thuộc owner root.
   OSN_OUT="$(dexec "docker run --rm --network host \
-    -v '${ROOT_DIR}':/workspace -w /workspace \
+    -v '${ROOT_DIR}':/workspace:z -w /workspace \
     hyperledger/fabric-tools:2.5 bash -lc \
     \"osnadmin channel list -o localhost:9443 \
        --ca-file /workspace/organizations/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/ca.crt \
@@ -287,7 +287,7 @@ done'
   PEER_PROBE_SCRIPT="${PEER_PROBE_SCRIPT//CHANNEL_NAME_PLACEHOLDER/${CHANNEL_NAME}}"
 
   PROBE_OUT="$(dexec "docker run --rm --network host \
-    -v '${ROOT_DIR}':/workspace -w /workspace \
+    -v '${ROOT_DIR}':/workspace:z -w /workspace \
     hyperledger/fabric-tools:2.5 bash -lc '${PEER_PROBE_SCRIPT}'" 2>&1 || true)"
 
   for k in org1p0 org1p1 org2p0 org2p1; do

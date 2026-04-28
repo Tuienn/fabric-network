@@ -82,7 +82,7 @@ docker_rm() {
     done
     return 0
   fi
-  docker run --rm -v "${ROOT_DIR}":/ws busybox rm -rf "${rel_args[@]}" 2>/dev/null || true
+  docker run --rm -v "${ROOT_DIR}":/ws:z busybox rm -rf "${rel_args[@]}" 2>/dev/null || true
 }
 
 confirm_if_needed() {

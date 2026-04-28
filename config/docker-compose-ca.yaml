@@ -18,7 +18,7 @@ services:
       - "7054:7054"
     command: fabric-ca-server start -b admin:adminpw -d
     volumes:
-      - ../organizations/fabric-ca/org1:/etc/hyperledger/fabric-ca-server
+      - ../organizations/fabric-ca/org1:/etc/hyperledger/fabric-ca-server:z
     networks:
       - fabric_test
 
@@ -36,7 +36,7 @@ services:
       - "8054:8054"
     command: fabric-ca-server start -b admin:adminpw -d
     volumes:
-      - ../organizations/fabric-ca/org2:/etc/hyperledger/fabric-ca-server
+      - ../organizations/fabric-ca/org2:/etc/hyperledger/fabric-ca-server:z
     networks:
       - fabric_test
 
@@ -54,7 +54,6 @@ services:
       - "9054:9054"
     command: fabric-ca-server start -b admin:adminpw -d
     volumes:
-      - ../organizations/fabric-ca/ordererOrg:/etc/hyperledger/fabric-ca-server
+      - ../organizations/fabric-ca/ordererOrg:/etc/hyperledger/fabric-ca-server:z
     networks:
       - fabric_test
-

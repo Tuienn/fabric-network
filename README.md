@@ -21,8 +21,8 @@ Mạng Fabric cục bộ với 2 tổ chức (Org1, Org2), 3 orderer Raft, 4 pee
 ## Khởi động nhanh (one command)
 
 ```bash
-# Clone repo và vào thư mục
-cd fabric-2org-3orderer-network
+# Clone repo và vào thư mục code
+cd /path/to/your/code
 
 # Chạy toàn bộ pipeline (CA → enroll → network → channel)
 ./scripts/run-network.sh

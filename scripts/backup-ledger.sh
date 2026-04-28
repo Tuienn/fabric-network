@@ -18,8 +18,7 @@ docker run --rm \
   -v peer1.org1.example.com:/vol/peer1.org1.example.com \
   -v peer0.org2.example.com:/vol/peer0.org2.example.com \
   -v peer1.org2.example.com:/vol/peer1.org2.example.com \
-  -v "${BACKUP_DIR}:/backup" \
+  -v "${BACKUP_DIR}:/backup:z" \
   busybox sh -c "tar czf /backup/$(basename "${ARCHIVE}") -C /vol ."
 
 echo "Backup created: ${ARCHIVE}"
-
