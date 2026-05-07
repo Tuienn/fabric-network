@@ -109,7 +109,7 @@ install_on_peer() {
 
   # Bỏ qua nếu đã install
   local installed
-  installed="$(peer lifecycle chaincode queryinstalled --output json 2>/dev/null | grep -c "\"label\":\"${CC_LABEL}\"" || true)"
+  installed="$(peer lifecycle chaincode queryinstalled --output json 2>/dev/null | grep -c "\"label\":[[:space:]]*\"${CC_LABEL}\"" || true)"
   if [ "${installed}" -gt 0 ]; then
     echo "    ${CC_LABEL} đã install trên peer này, skipping"
     return
@@ -120,7 +120,7 @@ install_on_peer() {
 get_package_id() {
   set_peer_globals 1 0
   PACKAGE_ID="$(peer lifecycle chaincode queryinstalled --output json \
-    | grep -B1 "\"label\":\"${CC_LABEL}\"" \
+    | grep -B1 "\"label\":[[:space:]]*\"${CC_LABEL}\"" \
     | grep "package_id" \
     | head -n1 \
     | sed -E 's/.*"package_id":[[:space:]]*"([^"]+)".*/\1/')"
@@ -137,7 +137,7 @@ approve_for_org() {
   echo "==> Approving chaincode cho Org${org}"
 
   local approved
-  approved="$(peer lifecycle chaincode queryapproved -C "${CHANNEL_NAME}" -n "${CC_NAME}" --output json 2>/dev/null \
+  approved="$(peer lifecycle chaincode queryapproved -C "${CHANNEL_NAME}" -n "${CC_NAME}" --sequence "${CC_SEQUENCE}" --output json 2>/dev/null \
     | grep -c "\"sequence\":[[:space:]]*${CC_SEQUENCE}" || true)"
   if [ "${approved}" -gt 0 ]; then
     echo "    Org${org} đã approve sequence=${CC_SEQUENCE}, skipping"
